@@ -1,0 +1,562 @@
+/* =========================
+   VARIABLES GLOBALES
+========================= */
+
+:root {
+    --bg: #0b0f10;
+    --card: rgba(20, 25, 28, 0.78);
+    --text: #ffffff;
+
+    --accent: #1aa39a;
+    --accent-soft: #7fd6cf;
+    --border: rgba(255,255,255,0.08);
+
+    --blur: blur(18px);
+}
+
+/* =========================
+   BASE
+========================= */
+
+body {
+    margin: 0;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    background:
+        radial-gradient(circle at top right, rgba(26,163,154,0.18), transparent 60%),
+        radial-gradient(circle at bottom left, rgba(0,0,0,0.9), #000);
+
+    color: var(--text);
+    font-family: system-ui, sans-serif;
+}
+
+/* =========================
+   ANIMACIONES
+========================= */
+
+@keyframes fadeUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px) scale(0.98);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+@keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-6px); }
+}
+
+/* =========================
+   TARJETA
+========================= */
+
+.card {
+    position: relative;
+    background: rgba(255, 255, 255, 0.08);
+    backdrop-filter: blur(22px) saturate(140%);
+    -webkit-backdrop-filter: blur(22px) saturate(140%);
+
+    padding: 42px 48px;
+    border-radius: 22px;
+    text-align: center;
+
+    border: 1px solid rgba(255,255,255,0.18);
+
+    box-shadow:
+        0 25px 80px rgba(0,0,0,0.55),
+        inset 0 0 0 1px rgba(255,255,255,0.08);
+
+    animation: fadeUp 0.6s ease;
+    overflow: hidden;
+}
+
+/* Brillo interno sutil */
+.card::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    background: linear-gradient(
+        120deg,
+        rgba(255,255,255,0.25),
+        transparent 40%,
+        transparent 60%,
+        rgba(255,255,255,0.15)
+    );
+    opacity: 0.35;
+    pointer-events: none;
+}
+
+/* =========================
+   LOGO
+========================= */
+
+.logo {
+    width: 90px;
+    margin-bottom: 18px;
+
+    filter: drop-shadow(0 6px 14px rgba(26,163,154,0.35));
+    animation: float 4s ease-in-out infinite;
+}
+
+/* =========================
+   BUSCADOR
+========================= */
+
+input {
+    width: 320px;
+    padding: 14px 16px;
+    border-radius: 12px;
+    border: 1px solid var(--border);
+    background: rgba(0,0,0,0.35);
+    color: var(--text);
+    outline: none;
+}
+
+input:focus {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 2px rgba(26,163,154,0.25);
+}
+
+button {
+    padding: 14px 18px;
+    margin-left: 6px;
+    border-radius: 12px;
+    border: none;
+    cursor: pointer;
+
+    background: linear-gradient(
+        135deg,
+        var(--accent),
+        var(--accent-soft)
+    );
+
+    color: #000;
+    font-weight: 600;
+}
+
+/* =========================
+   MOTORES
+========================= */
+
+.engines {
+    margin-top: 16px;
+}
+
+.engines button {
+    margin: 0 6px;
+    padding: 6px 10px;
+    border-radius: 999px;
+    border: 1px solid var(--border);
+    background: transparent;
+    color: var(--text);
+}
+
+.engines .active {
+    background: var(--accent);
+    color: #000;
+}
+
+/* =========================
+   RELOJ Y CLIMA
+========================= */
+
+.clock {
+    margin-bottom: 24px;
+    text-align: center;
+}
+
+#time {
+    font-size: 62px;
+    font-weight: 600;
+}
+
+#date {
+    font-size: 24px;
+    opacity: 0.75;
+}
+
+.weather {
+    margin-top: 8px;
+    font-size: 24px;
+    opacity: 0.85;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+}
+
+.weather img {
+    width: 20px;
+    height: 20px;
+}
+
+/* =========================
+   ACCESOS DIRECTOS
+========================= */
+
+.section-title {
+    margin: 30px 0 14px;
+    font-size: 16px;
+    opacity: 0.85;
+}
+
+#shortcuts {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(90px, 1fr));
+    gap: 16px;
+    max-width: 520px;
+}
+
+.shortcut {
+    background: rgba(255,255,255,0.05);
+    border-radius: 14px;
+    padding: 12px;
+    text-align: center;
+    cursor: pointer;
+    position: relative;
+    transition: 0.2s;
+}
+
+.shortcut:hover {
+    background: rgba(255,255,255,0.1);
+    transform: translateY(-3px);
+}
+
+.shortcut img {
+    width: 32px;
+    height: 32px;
+    margin-bottom: 6px;
+}
+
+.shortcut span {
+    font-size: 13px;
+    opacity: 0.9;
+}
+
+.shortcut .menu {
+    position: absolute;
+    top: 6px;
+    right: 8px;
+    font-size: 14px;
+    opacity: 0.6;
+    cursor: pointer;
+}
+
+/* BOTÓN + */
+
+#shortcuts {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(90px, 1fr));
+    gap: 16px;
+    max-width: 520px;
+    margin: 0 auto;
+}
+
+.shortcut-add {
+    min-height: 0px;
+    border-radius: 14px;
+    border: 1px dashed rgba(255,255,255,0.25);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 32px;
+    cursor: pointer;
+    color: var(--accent);
+}
+
+/* =========================
+   MENU CONTEXTUAL
+========================= */
+
+.context-menu {
+    position: fixed;
+    background: #111;
+    border-radius: 10px;
+    padding: 6px;
+    display: none;
+    z-index: 1000;
+    box-shadow: 0 10px 30px rgba(0,0,0,.4);
+}
+
+.context-menu div {
+    padding: 10px 14px;
+    cursor: pointer;
+    border-radius: 6px;
+}
+
+.context-menu div:hover {
+    background: rgba(255,255,255,0.1);
+}
+
+/* =========================
+   TOGGLE TEMA
+========================= */
+
+#themeToggle {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    font-size: 20px;
+    border-radius: 50%;
+}
+
+.shortcut-add {
+    min-height: 90px;
+    border: 2px dashed red; /* DEBUG */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 32px;
+}
+
+/* ================= MODAL ================= */
+
+.modal {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.55);
+    backdrop-filter: blur(4px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 2000;
+    animation: fadeIn 0.2s ease;
+}
+
+.modal.hidden {
+    display: none;
+}
+
+.modal-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 18px;
+    padding: 26px;
+    width: 320px;
+    text-align: center;
+    animation: scaleIn 0.25s ease;
+}
+
+.modal-card h3 {
+    margin-bottom: 16px;
+}
+
+.modal-card input {
+    width: 100%;
+    margin-bottom: 12px;
+}
+
+.modal-actions {
+    display: flex;
+    gap: 8px;
+    margin-top: 10px;
+}
+
+.modal-actions button {
+    flex: 1;
+}
+
+button.ghost {
+    background: transparent;
+    color: var(--text);
+    border: 1px solid var(--border);
+}
+
+button.danger {
+    background: #e53935;
+    color: white;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0 }
+    to { opacity: 1 }
+}
+
+@keyframes scaleIn {
+    from { transform: scale(0.9); opacity: 0 }
+    to { transform: scale(1); opacity: 1 }
+}
+
+/* =========================
+   TEMA CLARO
+========================= */
+
+:root[data-theme="light"] {
+    --bg: #f3f5f6;
+    --card: rgba(255,255,255,0.85);
+    --text: #111;
+
+    --border: rgba(0,0,0,0.1);
+}
+
+:root[data-theme="light"] body {
+    background:
+        radial-gradient(circle at top right, rgba(26,163,154,0.12), transparent 60%),
+        radial-gradient(circle at bottom left, #ffffff, #eaeaea);
+}
+
+/* =========================
+   FONDO ANIMADO PREMIUM
+========================= */
+
+body {
+    min-height: 100vh;
+    background: linear-gradient(
+        -45deg,
+        #0f2027,
+        #203a43,
+        #2c5364,
+        #1b1b1b
+    );
+    background-size: 400% 400%;
+    animation: gradientMove 18s ease infinite;
+    overflow: hidden;
+}
+
+@keyframes gradientMove {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+body::before {
+    content: "";
+    position: fixed;
+    inset: -50%;
+    background:
+        radial-gradient(circle at 20% 30%, rgba(0,255,200,0.15), transparent 40%),
+        radial-gradient(circle at 80% 70%, rgba(255,0,150,0.12), transparent 45%),
+        radial-gradient(circle at 50% 50%, rgba(0,120,255,0.12), transparent 50%);
+    filter: blur(120px);
+    animation: auroraMove 30s linear infinite;
+    z-index: -1;
+}
+
+@keyframes auroraMove {
+    0% { transform: translate(0, 0); }
+    50% { transform: translate(5%, -5%); }
+    100% { transform: translate(0, 0); }
+}
+
+/* =========================
+   PARTÍCULAS FLOTANTES
+========================= */
+
+.particles {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: -2;
+    overflow: hidden;
+}
+
+.particle {
+    position: absolute;
+    width: 6px;
+    height: 6px;
+    background: rgba(255,255,255,0.18);
+    border-radius: 50%;
+    filter: blur(2px);
+    animation: floatParticle linear infinite;
+}
+
+/* Variaciones */
+.particle:nth-child(odd) {
+    background: rgba(26,163,154,0.35);
+}
+
+.particle:nth-child(3n) {
+    width: 10px;
+    height: 10px;
+    animation-duration: 40s;
+}
+
+.particle:nth-child(4n) {
+    width: 4px;
+    height: 4px;
+    animation-duration: 25s;
+}
+
+@keyframes floatParticle {
+    from {
+        transform: translateY(110vh) translateX(0);
+        opacity: 0;
+    }
+    10% {
+        opacity: 1;
+    }
+    to {
+        transform: translateY(-20vh) translateX(60px);
+        opacity: 0;
+    }
+}
+
+/* =========================
+   ANIMACIÓN DE ENTRADA PRO
+========================= */
+
+body {
+    animation: pageFade 0.8s ease both;
+}
+
+@keyframes pageFade {
+    from {
+        opacity: 0;
+        transform: scale(0.98);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+/* Tarjeta principal */
+.card {
+    animation: cardEnter 0.7s ease both;
+}
+
+@keyframes cardEnter {
+    from {
+        opacity: 0;
+        transform: translateY(20px) scale(0.95);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+/* Accesos directos */
+.shortcut {
+    animation: shortcutEnter 0.5s ease both;
+}
+
+.shortcut:nth-child(1) { animation-delay: 0.05s; }
+.shortcut:nth-child(2) { animation-delay: 0.1s; }
+.shortcut:nth-child(3) { animation-delay: 0.15s; }
+.shortcut:nth-child(4) { animation-delay: 0.2s; }
+.shortcut:nth-child(5) { animation-delay: 0.25s; }
+.shortcut:nth-child(6) { animation-delay: 0.3s; }
+.shortcut:nth-child(7) { animation-delay: 0.35s; }
+.shortcut:nth-child(8) { animation-delay: 0.4s; }
+
+@keyframes shortcutEnter {
+    from {
+        opacity: 0;
+        transform: translateY(12px) scale(0.95);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
