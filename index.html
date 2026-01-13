@@ -11,7 +11,7 @@
     <div class="modal-card">
         <h3 id="modalTitle">Editar acceso</h3>
 
-        <input id="modalName" type="text" placeholder="Nombre del sitio">
+        <input id="modalName" type="text" placeholder="Nombre de la pagina">
         <input id="modalUrl" type="text" placeholder="https://ejemplo.com">
 
         <div class="modal-actions">
@@ -26,30 +26,36 @@
 
 <!-- RELOJ + CLIMA -->
 <div class="clock">
-    <div id="time">00:00</div>
-    <div id="date">lunes, 1 enero</div>
-
-    <div class="weather" id="weather">
-        <img id="weather-icon" alt="">
-        <span id="weather-temp">--°</span>
-        <span id="weather-city"></span>
+    <div id="date">lunes, 1 enero</div> 
+    <div id="time">00:00</div>          
+    <div class="weather" id="weather">  
+    <img id="weather-icon" alt="">
+    <span id="weather-temp">--°</span>
+    <span id="weather-city"></span>
     </div>
+</div>
 </div>
 
 <!-- TARJETA -->
 <div class="card">
     <img src="assets/logo-color.png" class="logo" alt="Logo">
 
-    <form id="searchForm">
-        <input id="query" type="text" placeholder="Buscar…" autofocus>
-        <button type="submit">Buscar</button>
-    </form>
+    <form id="searchForm" autocomplete="off">
+    <input id="query" class="engine-google" type="text" placeholder="Buscar en Google..." autofocus autocomplete="off">
+    <button type="submit">Buscar</button>
+</form>
 
     <div class="engines">
-        <button data-engine="google" class="active">G</button>
-        <button data-engine="duckduckgo">D</button>
-        <button data-engine="bing">B</button>
-    </div>
+    <button data-engine="google" class="active">
+        <img src="https://www.google.com/favicon.ico" alt="Google" style="width: 26px; vertical-align: middle;">
+    </button>
+    <button data-engine="duckduckgo">
+        <img src="https://external-content.duckduckgo.com/ip3/duckduckgo.com.ico" alt="DuckDuckGo">
+    </button>
+    <button data-engine="bing">
+        <img src="https://www.bing.com/favicon.ico" alt="Bing" style="width: 26px; vertical-align: middle;">
+    </button>
+</div>
 
     <h3 class="section-title">Favoritos</h3>
 
@@ -70,6 +76,12 @@
     <span class="particle" style="left:85%; animation-duration: 60s;"></span>
 </div>
 
+<footer class="footer-name">
+    © 2026 xXRuben11Xx    1-12
+</footer>
+
+<script src="script.js"></script>
+</body>
+
 </body>
 </html>
-
