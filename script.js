@@ -17,6 +17,12 @@ document.querySelectorAll(".engines button").forEach(btn => {
 
         btn.classList.add("active");
         engine = btn.dataset.engine;
+
+        // --- NUEVA LÓGICA PARA EL PLACEHOLDER ---
+        const searchInput = document.getElementById("query");
+        // Capitalizamos la primera letra (google -> Google)
+        const engineName = engine.charAt(0).toUpperCase() + engine.slice(1);
+        searchInput.placeholder = `Buscar en ${engineName}...`;
     };
 });
 
@@ -258,4 +264,3 @@ document.addEventListener("mousemove", e => {
 
     document.body.style.backgroundPosition = `${50 + x}% ${50 + y}%`;
 });
-
