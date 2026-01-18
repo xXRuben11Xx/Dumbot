@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dumbot</title>
+    
+    <!-- Metadatos y enlaces -->
+    <link rel="stylesheet" href="style.css">
+    <link rel="icon" type="image/png" href="favicon.png">
+</head>
+
+<body>
+    <!-- =========================
+         ELEMENTOS SUPERIORES
+    ========================= -->
+    
+    <!-- Buscador de favoritos (arriba) -->
+    <input 
+        id="shortcutSearch" 
+        class="shortcut-search" 
+        type="text" 
+        placeholder="Buscar favoritos…" 
+    />
+    
+    <!-- =========================
+         CABECERA (RELOJ Y CLIMA)
+    ========================= -->
+    
+    <div class="clock">
+        <div id="date">lunes, 1 enero</div> 
+        <div id="time">00:00</div>          
+        <div class="weather" id="weather">  
+            <img id="weather-icon" alt="Ícono del clima">
+            <span id="weather-temp">--°</span>
+            <span id="weather-city"></span>
+        </div>
+    </div>
+    
+    <!-- =========================
+         CONTENIDO PRINCIPAL
+    ========================= -->
+    
+    <div class="card">
+        <!-- Logo -->
+        <img src="assets/logo-color.png" class="logo" alt="Logo Dumbot">
+        
+        <!-- Formulario de búsqueda -->
+        <form id="searchForm" autocomplete="off">
+            <input 
+                id="query" 
+                type="text" 
+                placeholder="Buscar en Google..." 
+                autofocus 
+                autocomplete="off"
+            >
+            <button type="submit">Buscar</button>
+            
+        </form>
+        
+        <!-- Motores de búsqueda -->
+        <div class="engines">
+            <button data-engine="google" class="active" aria-label="Buscar con Google">
+                <img 
+                    src="https://www.google.com/favicon.ico" 
+                    alt="Google"
+                    style="width:26px"
+                >
+            </button>
+            <button data-engine="duckduckgo" aria-label="Buscar con DuckDuckGo">
+                <img 
+                    src="https://external-content.duckduckgo.com/ip3/duckduckgo.com.ico" 
+                    alt="DuckDuckGo"
+                >
+            </button>
+            <button data-engine="bing" aria-label="Buscar con Bing">
+                <img 
+                    src="https://www.bing.com/favicon.ico" 
+                    alt="Bing"
+                    style="width:26px"
+                >
+            </button>
+        </div>
+        
+        <!-- Sección de favoritos -->
+        <h3 class="section-title">Favoritos</h3>
+        
+        <div class="shortcuts-wrapper">
+            <div id="shortcuts"></div>
+        </div>
+    </div>
+    
+    <!-- =========================
+         ELEMENTOS FLOTANTES
+    ========================= -->
+    
+    <!-- Botón de cambio de tema -->
+    <button id="themeToggle" aria-label="Cambiar tema">🌙</button>
+    
+    <!-- Partículas de fondo -->
+    <div class="particles" aria-hidden="true">
+        <span class="particle" style="left:10%; animation-duration:30s"></span>
+        <span class="particle" style="left:25%; animation-duration:45s"></span>
+        <span class="particle" style="left:40%; animation-duration:35s"></span>
+        <span class="particle" style="left:55%; animation-duration:50s"></span>
+        <span class="particle" style="left:70%; animation-duration:40s"></span>
+        <span class="particle" style="left:85%; animation-duration:60s"></span>
+    </div>
+    
+    <!-- =========================
+         MODAL (EDITAR ACCESOS)
+    ========================= -->
+    
+    <div id="shortcutModal" class="modal hidden" role="dialog" aria-labelledby="modalTitle">
+        <div class="modal-card">
+            <h3 id="modalTitle">Editar acceso</h3>
+            
+            <input 
+                id="modalName" 
+                type="text" 
+                placeholder="Nombre de la página"
+                aria-label="Nombre de la página"
+            >
+            <input 
+                id="modalUrl" 
+                type="text" 
+                placeholder="https://ejemplo.com"
+                aria-label="URL de la página"
+            >
+            
+            <div class="modal-actions">
+                <button id="saveShortcut">Guardar</button>
+                <button id="deleteShortcut" class="danger">Eliminar</button>
+                <button id="cancelShortcut" class="ghost">Cancelar</button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- =========================
+         MENU CONTEXTUAL (OCULTO)
+    ========================= -->
+    
+    <div id="contextMenu" class="context-menu" style="display: none;">
+        <div data-action="edit">Editar</div>
+        <div data-action="delete">Eliminar</div>
+    </div>
+    
+    <!-- =========================
+         PIE DE PÁGINA
+    ========================= -->
+    
+    <footer class="footer-name">
+        © 2026 xXRuben11Xx 1-12-26
+    </footer>
+    
+    <!-- =========================
+         SCRIPT PRINCIPAL
+    ========================= -->
+    
+    <script src="script.js"></script>
+</body>
+</html>
