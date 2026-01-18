@@ -55,7 +55,6 @@ const STATE = {
     shortcuts: JSON.parse(localStorage.getItem('shortcuts')) || [
         { name: 'Google', url: 'https://google.com' },
         { name: 'YouTube', url: 'https://youtube.com' }
-        { name: 'CineHD+', url: 'https://cinehdplus.org' }
     ],
     editingIndex: null,
     dragIndex: null,
