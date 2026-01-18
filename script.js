@@ -21,8 +21,8 @@ const DOM = {
         icon: document.getElementById('weather-icon')
     },
     shortcuts: {
-        container: document.getElementById('shortcuts'),
-        search: document.getElementById('shortcutSearch')
+        container: document.getElementById('shortcuts')
+        // ELIMINADO: search: document.getElementById('shortcutSearch')
     },
     modal: {
         container: document.getElementById('shortcutModal'),
@@ -53,22 +53,13 @@ const CONFIG = {
 const STATE = {
     currentEngine: 'google',
     shortcuts: JSON.parse(localStorage.getItem('shortcuts')) || [
-        // REDES SOCIALES
         { name: 'YouTube', url: 'https://youtube.com' },
-               
-        // TRABAJO/ESTUDIO
         { name: 'GitHub', url: 'https://github.com' },
         { name: 'ChatGPT', url: 'https://chat.openai.com' },
         { name: 'Discord', url: 'https://discord.com' },
-        
-        // ENTRETENIMIENTO
         { name: 'YouTube Music', url: 'https://music.youtube.com' },
-
-        // COMPRAS
         { name: 'MercadoLibre', url: 'https://mercadolibre.com.ar' },
-
-        // HERRAMIENTAS
-        { name: 'Google Traductor', url: 'https://translate.google.com' },
+        { name: 'Google Traductor', url: 'https://translate.google.com' }
     ],
     editingIndex: null,
     dragIndex: null,
@@ -129,12 +120,11 @@ const HELPERS = {
 };
 
 /* =========================
-   ACCESOS DIRECTOS OPTIMIZADOS - CORREGIDO
+   ACCESOS DIRECTOS OPTIMIZADOS
 ========================= */
 const SHORTCUTS = {
     init() {
         this.render();
-        this.setupSearch();
         this.setupDragAndDrop();
     },
     
@@ -159,21 +149,18 @@ const SHORTCUTS = {
             
             // Click principal (abrir URL)
             div.addEventListener('click', (e) => {
-                // Solo abrir URL si no se hizo click en el menú
                 if (!e.target.classList.contains('menu') && 
                     !e.target.closest('.menu')) {
                     window.location.href = safeUrl;
                 }
             });
             
-            // Menú contextual - CORRECCIÓN AQUÍ
+            // Menú contextual
             const menuBtn = div.querySelector('.menu');
             menuBtn.addEventListener('click', (e) => {
                 e.preventDefault();
                 e.stopPropagation();
                 e.stopImmediatePropagation();
-                
-                // Abrir modal de edición
                 MODAL.openEdit(index);
             });
             
@@ -219,31 +206,6 @@ const SHORTCUTS = {
         DOM.shortcuts.container.appendChild(addBtn);
     },
     
-    setupSearch() {
-        DOM.shortcuts.search.addEventListener('input', UTILS.debounce(() => {
-            const value = DOM.shortcuts.search.value.toLowerCase();
-            
-            document.querySelectorAll('.shortcut').forEach(card => {
-                const name = card.querySelector('span').textContent.toLowerCase();
-                card.style.display = name.includes(value) ? '' : 'none';
-            });
-        }, 150));
-        
-        // Atajos de teclado
-        document.addEventListener('keydown', (e) => {
-            if (e.key === '/' && !['INPUT', 'TEXTAREA'].includes(document.activeElement.tagName)) {
-                e.preventDefault();
-                DOM.shortcuts.search.focus();
-            }
-            
-            if (e.key === 'Escape' && document.activeElement === DOM.shortcuts.search) {
-                DOM.shortcuts.search.value = '';
-                DOM.shortcuts.search.dispatchEvent(new Event('input'));
-                DOM.shortcuts.search.blur();
-            }
-        });
-    },
-    
     setupDragAndDrop() {
         // Touch events para móviles
         let touchStartY = 0;
@@ -263,20 +225,17 @@ const SHORTCUTS = {
             const touchEndX = e.changedTouches[0].clientX;
             const touchDuration = Date.now() - touchStartTime;
             
-            // Solo procesar si fue un tap corto (menos de 300ms)
             if (touchDuration < 300) {
                 const shortcut = e.target.closest('.shortcut');
                 const menuBtn = e.target.closest('.menu');
                 
                 if (shortcut) {
                     if (menuBtn) {
-                        // Click en el menú
                         e.preventDefault();
                         const index = parseInt(shortcut.dataset.index);
                         MODAL.openEdit(index);
                     } else if (Math.abs(touchEndX - touchStartX) < 10 && 
                                Math.abs(touchEndY - touchStartY) < 10) {
-                        // Click en el acceso directo (no swipe)
                         const index = parseInt(shortcut.dataset.index);
                         window.location.href = HELPERS.normalizeUrl(STATE.shortcuts[index].url);
                     }
@@ -287,7 +246,7 @@ const SHORTCUTS = {
 };
 
 /* =========================
-   MODAL OPTIMIZADO - CORREGIDO
+   MODAL
 ========================= */
 const MODAL = {
     init() {
@@ -295,14 +254,12 @@ const MODAL = {
         DOM.modal.delete.addEventListener('click', () => this.delete());
         DOM.modal.cancel.addEventListener('click', () => this.close());
         
-        // Cerrar al hacer clic fuera
         DOM.modal.container.addEventListener('click', (e) => {
             if (e.target === DOM.modal.container) {
                 this.close();
             }
         });
         
-        // Cerrar con tecla Escape
         document.addEventListener('keydown', (e) => {
             if (e.key === 'Escape' && STATE.isModalOpen) {
                 this.close();
@@ -375,7 +332,7 @@ const MODAL = {
 };
 
 /* =========================
-   BUSCADOR OPTIMIZADO
+   BUSCADOR
 ========================= */
 const SEARCH = {
     init() {
@@ -393,7 +350,6 @@ const SEARCH = {
                 btn.classList.add('active');
                 STATE.currentEngine = btn.dataset.engine;
                 
-                // Actualizar placeholder
                 const engineName = STATE.currentEngine.charAt(0).toUpperCase() + 
                                   STATE.currentEngine.slice(1);
                 DOM.search.input.placeholder = `Buscar en ${engineName}...`;
@@ -412,7 +368,6 @@ const SEARCH = {
         const query = DOM.search.input.value.trim().toLowerCase();
         if (!query) return;
         
-        // Buscar en accesos directos
         const match = STATE.shortcuts.find(s =>
             s.name.toLowerCase().includes(query) ||
             HELPERS.normalizeUrl(s.url).toLowerCase().includes(query)
@@ -423,7 +378,6 @@ const SEARCH = {
             return;
         }
         
-        // Buscar en motor activo
         window.location.href = CONFIG.SEARCH_ENGINES[STATE.currentEngine] + 
                                encodeURIComponent(query);
     },
@@ -443,7 +397,6 @@ const SEARCH = {
             debouncedFetch(query);
         });
         
-        // Ocultar al hacer clic fuera
         document.addEventListener('click', e => {
             if (!e.target.closest('#searchForm')) {
                 DOM.search.suggestions.classList.add('hidden');
@@ -462,7 +415,6 @@ const SEARCH = {
         
         DOM.search.suggestions.innerHTML = '';
         
-        // Filtrar accesos
         const matches = STATE.shortcuts.filter(s =>
             s.name.toLowerCase().includes(q) ||
             HELPERS.normalizeUrl(s.url).toLowerCase().includes(q)
@@ -482,7 +434,6 @@ const SEARCH = {
             DOM.search.suggestions.appendChild(div);
         });
         
-        // Opción de búsqueda
         if (query.length > 0) {
             const searchDiv = document.createElement('div');
             searchDiv.className = 'suggestion';
@@ -504,7 +455,6 @@ const SEARCH = {
             );
             const data = await response.json();
             
-            // Limitar a 4 sugerencias
             data.slice(0, 4).forEach(item => {
                 const div = document.createElement('div');
                 div.className = 'suggestion';
@@ -526,7 +476,7 @@ const SEARCH = {
 };
 
 /* =========================
-   RELOJ Y CLIMA OPTIMIZADOS
+   RELOJ
 ========================= */
 const TIME = {
     init() {
@@ -551,45 +501,111 @@ const TIME = {
     }
 };
 
-const WEATHER = {
-    async init() {
+/* =========================
+   CLIMA - ESTE ES EL MÓDULO QUE FALTABA
+========================= */
+const CLIMA = {
+    init() {
+        console.log('🌤️ Inicializando clima...');
+        
+        // Verificar si el elemento existe
+        if (!DOM.weather.container) {
+            console.warn('Elemento del clima no encontrado en el DOM');
+            return;
+        }
+        
         if (!navigator.geolocation) {
+            console.warn('Geolocalización no soportada por el navegador');
             DOM.weather.container.style.display = 'none';
             return;
         }
         
+        // Opciones para geolocalización
+        const geoOptions = {
+            timeout: 10000, // 10 segundos máximo
+            maximumAge: 300000, // Cache de 5 minutos
+            enableHighAccuracy: false // Mejor para batería
+        };
+        
+        // Intentar obtener ubicación
         navigator.geolocation.getCurrentPosition(
-            position => this.fetchWeather(position.coords),
-            () => DOM.weather.container.style.display = 'none',
-            { timeout: 5000, maximumAge: 600000 } // Cache de 10 minutos
+            (position) => {
+                console.log('📍 Ubicación obtenida:', position.coords);
+                this.fetchClima(position.coords.latitude, position.coords.longitude);
+            },
+            (error) => {
+                console.error('❌ Error de geolocalización:', error.message);
+                this.mostrarErrorClima();
+            },
+            geoOptions
         );
     },
     
-    async fetchWeather(coords) {
+    async fetchClima(lat, lon) {
         try {
+            console.log(`🌡️ Buscando clima para: ${lat}, ${lon}`);
+            
+            // Mostrar estado de carga
+            DOM.weather.temp.textContent = '...';
+            DOM.weather.city.textContent = 'Cargando...';
+            
             const response = await fetch(
-                `https://api.weatherapi.com/v1/current.json?key=${CONFIG.WEATHER_API_KEY}&q=${coords.latitude},${coords.longitude}&lang=es`
+                `https://api.weatherapi.com/v1/current.json?key=${CONFIG.WEATHER_API_KEY}&q=${lat},${lon}&lang=es`
             );
             
-            if (!response.ok) throw new Error('Error en la respuesta');
+            if (!response.ok) {
+                throw new Error(`Error HTTP: ${response.status}`);
+            }
             
             const data = await response.json();
+            console.log('✅ Datos del clima recibidos:', data);
             
-            DOM.weather.temp.textContent = Math.round(data.current.temp_c) + '°';
-            DOM.weather.city.textContent = data.location.name;
-            DOM.weather.icon.src = 'https:' + data.current.condition.icon;
-            DOM.weather.icon.alt = data.current.condition.text;
+            // Actualizar la interfaz
+            this.actualizarInterfaz(data);
+            
         } catch (error) {
-            console.warn('No se pudo cargar el clima:', error);
-            DOM.weather.container.style.display = 'none';
+            console.error('❌ Error al obtener el clima:', error);
+            this.mostrarErrorClima();
         }
+    },
+    
+    actualizarInterfaz(data) {
+        // Temperatura
+        const tempC = Math.round(data.current.temp_c);
+        DOM.weather.temp.textContent = `${tempC}°`;
+        
+        // Ciudad
+        DOM.weather.city.textContent = data.location.name;
+        
+        // Ícono
+        const iconUrl = 'https:' + data.current.condition.icon;
+        DOM.weather.icon.src = iconUrl;
+        DOM.weather.icon.alt = data.current.condition.text;
+        
+        // Asegurarse de que el contenedor sea visible
+        DOM.weather.container.style.display = 'flex';
+        DOM.weather.container.style.opacity = '1';
+        
+        console.log(`✅ Clima actualizado: ${tempC}°C en ${data.location.name}`);
+    },
+    
+    mostrarErrorClima() {
+        // Ocultar completamente el widget de clima
+        DOM.weather.container.style.display = 'none';
+        
+        // O mostrar mensaje de error (opcional)
+        // DOM.weather.temp.textContent = '--';
+        // DOM.weather.city.textContent = 'No disponible';
+        // DOM.weather.icon.src = '';
+        
+        console.log('⚠️ Widget de clima desactivado por error');
     }
 };
 
 /* =========================
-   TEMA Y EFECTOS OPTIMIZADOS
+   TEMA
 ========================= */
-const THEME = {
+const TEMA = {
     init() {
         const savedTheme = localStorage.getItem('theme') || 'dark';
         DOM.theme.root.dataset.theme = savedTheme;
@@ -606,74 +622,50 @@ const THEME = {
     }
 };
 
-const EFFECTS = {
-    init() {
-        // Efecto de parallax solo en escritorio
-        if (window.innerWidth > 768) {
-            document.addEventListener('mousemove', UTILS.throttle(this.parallax, 16));
-        }
-        
-        // Detectar cambios de orientación en móviles
-        window.addEventListener('orientationchange', () => {
-            setTimeout(() => window.location.reload(), 100);
-        });
-    },
-    
-    parallax(e) {
-        const x = (e.clientX / window.innerWidth - 0.5) * 10;
-        const y = (e.clientY / window.innerHeight - 0.5) * 10;
-        
-        document.body.style.backgroundPosition = `${50 + x}% ${50 + y}%`;
-    }
-};
-
 /* =========================
-   INICIALIZACIÓN FINAL - CORREGIDA
+   INICIALIZACIÓN CORREGIDA
 ========================= */
 const APP = {
-    async init() {
+    init() {
         try {
-            console.log('🚀 Inicializando aplicación...');
+            console.log('🚀 Inicializando Dumbot...');
             
-            // Primero: Elementos críticos que deben cargar inmediatamente
+            // 1. Elementos críticos (inmediatos)
             TIME.init();
-            THEME.init();
-            
-            // Segundo: Inicializar el modal ANTES de los shortcuts
+            TEMA.init();
             MODAL.init();
             
-            // Tercero: Inicializar shortcuts y búsqueda
+            // 2. Componentes principales
             SEARCH.init();
             SHORTCUTS.init();
             
-            // Cuarto: Efectos y clima (pueden cargar después)
-            setTimeout(() => {
-                EFFECTS.init();
-                WEATHER.init();
-            }, 500);
+            // 3. Clima (puede tardar, pero iniciar inmediatamente)
+            CLIMA.init();
             
-            console.log('✅ Aplicación inicializada correctamente');
+            console.log('✅ Dumbot inicializado correctamente');
             
-            // Verificar que el modal esté cerrado al inicio
-            if (DOM.modal.container && !DOM.modal.container.classList.contains('hidden')) {
-                console.warn('⚠️ Modal estaba abierto al cargar, cerrando...');
-                DOM.modal.container.classList.add('hidden');
-            }
+            // Debug: verificar elementos del clima
+            console.log('🔍 Elementos del clima:', {
+                container: DOM.weather.container,
+                temp: DOM.weather.temp,
+                city: DOM.weather.city,
+                icon: DOM.weather.icon
+            });
             
         } catch (error) {
-            console.error('❌ Error inicializando la aplicación:', error);
+            console.error('❌ Error crítico:', error);
         }
     }
 };
 
-// Iniciar cuando el DOM esté listo
+// Iniciar aplicación
 document.addEventListener('DOMContentLoaded', () => {
-    console.log('📄 DOM cargado, iniciando aplicación...');
+    console.log('📄 DOM cargado');
     APP.init();
 });
 
-// Si el DOM ya está cargado, iniciar inmediatamente
+// Si el DOM ya está listo
 if (document.readyState === 'interactive' || document.readyState === 'complete') {
-    console.log('⚡ DOM ya cargado, iniciando...');
+    console.log('⚡ DOM ya listo');
     setTimeout(() => APP.init(), 0);
 }
