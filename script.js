@@ -49,12 +49,50 @@ const CONFIG = {
     }
 };
 
-// Estado de la aplicación
+// Estado de la aplicación con categorías
 const STATE = {
     currentEngine: 'google',
     shortcuts: JSON.parse(localStorage.getItem('shortcuts')) || [
-        { name: 'Google', url: 'https://google.com' },
-        { name: 'YouTube', url: 'https://youtube.com' }
+        // REDES SOCIALES
+        { name: 'YouTube', url: 'https://youtube.com' },
+        { name: 'Twitter', url: 'https://twitter.com' },
+        { name: 'Reddit', url: 'https://reddit.com' },
+        { name: 'Instagram', url: 'https://instagram.com' },
+        { name: 'Facebook', url: 'https://facebook.com' },
+        { name: 'LinkedIn', url: 'https://linkedin.com' },
+        
+        // TRABAJO/ESTUDIO
+        { name: 'GitHub', url: 'https://github.com' },
+        { name: 'ChatGPT', url: 'https://chat.openai.com' },
+        { name: 'Google Drive', url: 'https://drive.google.com' },
+        { name: 'Gmail', url: 'https://gmail.com' },
+        { name: 'Notion', url: 'https://notion.so' },
+        { name: 'Discord', url: 'https://discord.com' },
+        
+        // ENTRETENIMIENTO
+        { name: 'Netflix', url: 'https://netflix.com' },
+        { name: 'Spotify', url: 'https://spotify.com' },
+        { name: 'Twitch', url: 'https://twitch.tv' },
+        { name: 'YouTube Music', url: 'https://music.youtube.com' },
+        { name: 'HBO Max', url: 'https://hbomax.com' },
+        { name: 'Disney+', url: 'https://disneyplus.com' },
+        
+        // COMPRAS
+        { name: 'Amazon', url: 'https://amazon.com' },
+        { name: 'MercadoLibre', url: 'https://mercadolibre.com.ar' },
+        { name: 'eBay', url: 'https://ebay.com' },
+        { name: 'AliExpress', url: 'https://aliexpress.com' },
+        
+        // HERRAMIENTAS
+        { name: 'Google Maps', url: 'https://maps.google.com' },
+        { name: 'Google Traductor', url: 'https://translate.google.com' },
+        { name: 'Google Fotos', url: 'https://photos.google.com' },
+        { name: 'Google Calendar', url: 'https://calendar.google.com' },
+        
+        // MENSAJERÍA
+        { name: 'WhatsApp Web', url: 'https://web.whatsapp.com' },
+        { name: 'Telegram Web', url: 'https://web.telegram.org' },
+        { name: 'Messenger', url: 'https://messenger.com' }
     ],
     editingIndex: null,
     dragIndex: null,
