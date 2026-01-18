@@ -18,13 +18,8 @@
          ELEMENTOS SUPERIORES
     ========================= -->
     
-    <!-- Buscador de favoritos (arriba) -->
-    <input 
-        id="shortcutSearch" 
-        class="shortcut-search" 
-        type="text" 
-        placeholder="Buscar favoritos…" 
-    />
+    <!-- BUSCADOR DE FAVORITOS ELIMINADO -->
+    <!-- <input id="shortcutSearch" class="shortcut-search" type="text" placeholder="Buscar favoritos…" /> -->
     
     <!-- =========================
          CABECERA (RELOJ Y CLIMA)
@@ -48,17 +43,19 @@
         <!-- Logo -->
         <img src="assets/logo-color.png" class="logo" alt="Logo Dumbot">
         
-        <!-- Formulario de búsqueda -->
+        <!-- Formulario de búsqueda UNIFICADO -->
         <form id="searchForm" autocomplete="off">
             <input 
                 id="query" 
                 type="text" 
-                placeholder="Buscar en Google..." 
+                placeholder="Buscar en Google o tus favoritos..." 
                 autofocus 
                 autocomplete="off"
             >
             <button type="submit">Buscar</button>
             
+            <!-- SUGERENCIAS (Agregar este div si no existe) -->
+            <div id="suggestions" class="suggestions hidden"></div>
         </form>
         
         <!-- Motores de búsqueda -->
